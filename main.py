@@ -52,7 +52,7 @@ class Excel_Fomatter:
                     setattr(cell, "style", "Percent")
         return "Percentage formatting is complete!"
 
-    def set_row_percentage(self, start_col:int, start_row:int, num_rows:int, steps:int=1):
+    def set_row_percentage(self, start_col:int, start_row:int, num_rows:int, steps:int=1,skip_cols:int=1):
         """
         Formats row to percentage
         :param start_row: Starting row.
@@ -67,7 +67,7 @@ class Excel_Fomatter:
                     setattr(cell, "style", "Percent")
         return "Percentage formatting is complete!"
 
-    def set_row_currency(self, start_col:int, start_row:int, num_rows:int, steps:int=1):
+    def set_row_currency(self, start_col:int, start_row:int, num_rows:int, steps:int=1,skip_cols:int=1):
         """
         Formats row to currency
         :param start_row: Starting row.
