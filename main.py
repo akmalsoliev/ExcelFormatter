@@ -52,6 +52,37 @@ class Excel_Fomatter:
                     setattr(cell, "style", "Percent")
         return "Percentage formatting is complete!"
 
+    def set_row_percentage(self, start_col:int, start_row:int, num_rows:int, steps:int=1):
+        """
+        Formats row to percentage
+        :param start_row: Starting row.
+        :param steps: Every X column will be formatted as percentage.
+        :param num_rows: Number of rows that should be formatted starting from start_row.
+        """
+
+        for rows in range(start_row,start_row+num_rows,steps):
+            for cols in np.arange(start_col, self.xl_cols+1):
+                if cols > skip_cols:
+                    cell = self.worksheet.cell(row=rows, column=cols)
+                    setattr(cell, "style", "Percent")
+        return "Percentage formatting is complete!"
+
+    def set_row_currency(self, start_col:int, start_row:int, num_rows:int, steps:int=1):
+        """
+        Formats row to currency
+        :param start_row: Starting row.
+        :param steps: Every X column will be formatted as currency $ .
+        :param num_rows: Number of rows that should be formatted starting from start_row.
+        """
+        
+        for rows in range(start_row,start_row+num_rows,steps):
+            for cols in np.arange(start_col, self.xl_cols+1):
+                if cols > skip_cols:
+                    cell = self.worksheet.cell(row=rows, column=cols)
+                    cell.number_format=u'$#,##0_-'
+        return "Currency formatting is complete!"
+
+
     def freeze_panes(self, cell:str=None, row:int=None, column:int=None):
         if cell and (row or column):
             raise """Need to specify either `cell` or `row` and `column`. Cannot declare `cell` and `row` or `column`."""
