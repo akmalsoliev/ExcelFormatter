@@ -82,6 +82,44 @@ class Excel_Fomatter:
                     cell.number_format=u'$#,##0_-'
         return "Currency formatting is complete!"
 
+    def set_row_percentage_dec(self, start_col:int, start_row:int, num_rows:int, steps:int=1,skip_cols:int=1,decimal:int=1):
+        """
+        Formats row to percentage. comma
+        :param start_row: Starting row.
+        :param steps: Every X column will be formatted as percentage.
+        :param num_rows: Number of rows that should be formatted starting from start_row.
+        :param decimal: Number of decimal.
+        """
+
+        for rows in range(start_row,start_row+num_rows,steps):
+            for cols in np.arange(start_col, self.xl_cols+1):
+                if cols > skip_cols:
+                    cell = self.worksheet.cell(row=rows, column=cols)
+                    if decimal==0:
+                        setattr(cell, "style", "Percent")
+                    else:
+                        cell.number_format = "0."+ decimal* "0"+"%"
+        return "Percentage formatting is complete!"
+
+    def set_row_number_dec(self, start_col:int, start_row:int, num_rows:int, steps:int=1,skip_cols:int=1,decimal:int=1):
+        """
+        Formats row to number.comma
+        :param start_row: Starting row.
+        :param steps: Every X column will be formatted as percentage.
+        :param num_rows: Number of rows that should be formatted starting from start_row.
+        :param decimal: Number of decimal.
+        """
+
+        for rows in range(start_row,start_row+num_rows,steps):
+            for cols in np.arange(start_col, self.xl_cols+1):
+                if cols > skip_cols:
+                    cell = self.worksheet.cell(row=rows, column=cols)
+                    if decimal==0:
+                        cell.number_format = '0'
+                    else:
+                        cell.number_format = "0."+ decimal* "0"
+                        
+        return "Percentage formatting is complete!"
 
     def freeze_panes(self, cell:str=None, row:int=None, column:int=None):
         if cell and (row or column):
