@@ -96,7 +96,7 @@ class Excel_Fomatter:
                 if cols > skip_cols:
                     cell = self.worksheet.cell(row=rows, column=cols)
                     if decimal==0:
-                        setattr(cell, "style", "Percent")
+                        cell.number_format = "0%"
                     else:
                         cell.number_format = "0."+ decimal* "0"+"%"
         return "Percentage formatting is complete!"
