@@ -19,17 +19,17 @@ class Excel_Fomatter:
         self.sheet = sheet
         self.index_size = index_size
         self.column_size = column_size
-        self.workbook = self.get_workbook()
-        self.worksheet = self.get_worksheet()
-        self.xl_cols, self.xl_rows = self.get_shape()
+        self.workbook = self.__get_workbook__()
+        self.worksheet = self.__get_worksheet__()
+        self.xl_cols, self.xl_rows = self.__get_shape__()
 
-    def get_workbook(self):
+    def __get_workbook__(self):
         return openpyxl.load_workbook(self.file_path)
 
-    def get_worksheet(self):
+    def __get_worksheet__(self):
         return self.workbook[self.sheet]
 
-    def get_shape(self):
+    def __get_shape__(self):
         xl_rows, xl_cols = np.array([*self.worksheet.columns]).shape
         return xl_rows, xl_cols
 
@@ -44,7 +44,6 @@ class Excel_Fomatter:
         :param steps: Every X column will be formatted as percentage.
         :param skip_rows: Number of rows that should be skipped in the formatting (number of header rows).
         """
-
         for column in np.arange(start_col, self.xl_cols+1, steps):
             for row in np.arange(start_row, self.xl_rows):
                 if row > skip_rows:
@@ -59,7 +58,6 @@ class Excel_Fomatter:
         :param steps: Every X column will be formatted as percentage.
         :param num_rows: Number of rows that should be formatted starting from start_row.
         """
-
         for rows in range(start_row,start_row+num_rows,steps):
             for cols in np.arange(start_col, self.xl_cols+1):
                 if cols > skip_cols:
@@ -67,7 +65,7 @@ class Excel_Fomatter:
                     setattr(cell, "style", "Percent")
         return "Percentage formatting is complete!"
 
-    def set_row_currency(self, start_col:int, start_row:int, num_rows:int, steps:int=1,skip_cols:int=1):
+    def set_row_currency(self, start_col:int, start_row:int, num_rows:int, steps:int=1, skip_cols:int=1):
         """
         Formats row to currency
         :param start_row: Starting row.
@@ -79,7 +77,7 @@ class Excel_Fomatter:
             for cols in np.arange(start_col, self.xl_cols+1):
                 if cols > skip_cols:
                     cell = self.worksheet.cell(row=rows, column=cols)
-                    cell.number_format=u'$#,##0_-'
+                    setattr(cell, "number_format", u'$#,##0_-')
         return "Currency formatting is complete!"
 
     def set_row_percentage_dec(self, start_col:int, start_row:int, num_rows:int, steps:int=1,skip_cols:int=1,decimal:int=1):
@@ -120,7 +118,7 @@ class Excel_Fomatter:
                         cell.number_format = "0."+ decimal* "0"
                         
         return "Percentage formatting is complete!"
-
+        
     def freeze_panes(self, cell:str=None, row:int=None, column:int=None):
         if cell and (row or column):
             raise """Need to specify either `cell` or `row` and `column`. Cannot declare `cell` and `row` or `column`."""
@@ -135,13 +133,13 @@ class Excel_Fomatter:
         else:
             raise "Need to specify either `cell` or `row` and `column`"
 
-    def fill_color(self, color:str):
+    def __fill_color__(self, color:str):
             return PatternFill(start_color=color, end_color=color, fill_type='solid')
 
     def color_columns(self, start:int, steps:int, color0:str="FFFFFF", color1:str="EEEBFF"):
         # Color Fill
-        col_fill0 = self.fill_color(color0)
-        col_fill1 = self.fill_color(color1)
+        col_fill0 = self.__fill_color__(color0)
+        col_fill1 = self.__fill_color__(color1)
 
         start_col_range = np.arange(start, self.xl_cols, steps)
         end_col_range = np.arange(start+steps, self.xl_cols+steps, steps)
@@ -156,7 +154,7 @@ class Excel_Fomatter:
         return "Column coloring is complete"
 
     def header_color(self, color:str="B4C6E7", header_num_rows:int=2):
-        head_fill = self.fill_color(color)
+        head_fill = self.__fill_color__(color)
         try:
             for row in self.worksheet["1:{}".format(header_num_rows)]:
                 for cell in row:
@@ -167,7 +165,7 @@ class Excel_Fomatter:
         return "Header coloring is complete"
 
     def color_row(self, start_row:int, end_row:int, color:str="FCD5B4"):
-        color_fill = self.fill_color(color)
+        color_fill = self.__fill_color__(color)
         if start_row - end_row == 0:
             for cell in self.worksheet["{}:{}".format(start_row, end_row)]:
                 cell.fill = color_fill
