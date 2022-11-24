@@ -214,12 +214,7 @@ class Excel_Fomatter:
         self.workbook.save(self.file_path)
         return "File saving is complete"
 
-
     def merged_header_alternate_fill(self, start_cell=(3,2), color1="6A8ED0",color2="9EB2DE"):
-    
-        ws=self.worksheet
-        m_c_range=ws.merged_cells.ranges
-        
         """
         Formats header alternated by merged cell
         :param start_cell: Starting cell as list
@@ -230,29 +225,21 @@ class Excel_Fomatter:
         start_row=start_cell[0] 
         #COLUN START OF HEADER
         start_col=start_cell[1] 
-
         #list of cell to merge
         #output of first loop to identify which cell to fill
         #method .fill takes the first cell top right to fill
         merged_cell_complete=[]
-    
         #index for list merged_cell_complete
         j=-1
-        
         try:
             print(program)
         except:
             print('Program not found')
-            
         #BUILD INDEX FOR HEADER, INCLUDING NON MERGED CELLS
         #RETURNS LEFT INDEX OF CELL IF IN A MERGE RANGE OR THE SAME CELL IF NOT
-            
-            
         for i in range(len(m_c_range)):
-
             m_c_left=m_c_range[i].left
             m_c_right=m_c_range[i].right
-
             #first time of loop starts from first column that could not be included in first merged cell
             #insert column until the first merged cell then take the merged cell
             if i==0:
@@ -263,12 +250,9 @@ class Excel_Fomatter:
                     print('new cell'+ str(s))
                     print('--->',[m_c_left, m_c_right], '///',merged_cell_complete[j])
                     s=[(start_row,start_col+1)]
-
                 merged_cell_complete.append(m_c_left)
                 j=j+1
                 print([m_c_left, m_c_right], '///',merged_cell_complete[j])
-
-
             else:
                 new_cell=m_c_range[i-1].right
                 new_cell=[(new_cell[0][0],new_cell[0][1]+1)]
@@ -281,9 +265,7 @@ class Excel_Fomatter:
                 merged_cell_complete.append(m_c_left)
                 j=j+1
                 print([m_c_left, m_c_right], '///',merged_cell_complete[j])
-
             #stop condition if non-merged cell to be filled take place at the end
-
             if i==len(m_c_range)-1:
                 ii=m_c_right[0][1]+1
                 if ws.cell(row=start_row,column=ii).value!=None:
@@ -299,7 +281,6 @@ class Excel_Fomatter:
         for m_c_list in merged_cell_complete:
             cell_index=m_c_list[0]
             #print(cell_index)
-
             if foo==True:
                 ws.cell(row=cell_index[0],column=cell_index[1]).fill=PatternFill("solid", start_color=color1)
                 foo=False
