@@ -220,6 +220,8 @@ class Excel_Fomatter:
         :param start_cell: Starting cell as list
         :param color1 & color2: define which color to alternate
         """ 
+        ws=self.worksheet
+        m_c_range=ws.merged_cells.ranges
         #ROW OF FIRST LEVEL INDEXING : YEAR_MONTH
         #  row_range=3
         start_row=start_cell[0] 
