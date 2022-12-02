@@ -233,6 +233,7 @@ class Excel_Fomatter:
         merged_cell_complete=[]
         #index for list merged_cell_complete
         j=-1
+        f=0
         try:
             print(program)
         except:
@@ -246,14 +247,20 @@ class Excel_Fomatter:
             #insert column until the first merged cell then take the merged cell
             if i==0:
                 s=[(start_row,start_col)]
+                print('initial s:',s)
                 while s!=m_c_left:
                     merged_cell_complete.append(s)
                     j=j+1
+                    f=f+1
+                    print('loop s:',s)
+                    print('i:',str(i),' --- j:',str(j))
                     print('new cell'+ str(s))
+                    print(merged_cell_complete)
                     print('--->',[m_c_left, m_c_right], '///',merged_cell_complete[j])
-                    s=[(start_row,start_col+1)]
+                    s=[(start_row,start_col+f)]
                 merged_cell_complete.append(m_c_left)
                 j=j+1
+                print('i:',str(j),' --- j:',str(j))
                 print([m_c_left, m_c_right], '///',merged_cell_complete[j])
             else:
                 new_cell=m_c_range[i-1].right
