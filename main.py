@@ -233,6 +233,7 @@ class Excel_Fomatter:
         merged_cell_complete=[]
         #index for list merged_cell_complete
         j=-1
+        f=0
         try:
             print(program)
         except:
@@ -249,24 +250,19 @@ class Excel_Fomatter:
                 while s!=m_c_left:
                     merged_cell_complete.append(s)
                     j=j+1
-                    print('new cell'+ str(s))
-                    print('--->',[m_c_left, m_c_right], '///',merged_cell_complete[j])
-                    s=[(start_row,start_col+1)]
+                    f=f+1
+                    s=[(start_row,start_col+f)]
                 merged_cell_complete.append(m_c_left)
                 j=j+1
-                print([m_c_left, m_c_right], '///',merged_cell_complete[j])
             else:
                 new_cell=m_c_range[i-1].right
                 new_cell=[(new_cell[0][0],new_cell[0][1]+1)]
                 while new_cell!=m_c_left:
                     merged_cell_complete.append(new_cell)
                     j=j+1
-                    print('new cell'+ str(new_cell))
-                    print('--->',[m_c_left, m_c_right], '///',merged_cell_complete[j])
                     new_cell=[(new_cell[0][0],new_cell[0][1]+1)]
                 merged_cell_complete.append(m_c_left)
                 j=j+1
-                print([m_c_left, m_c_right], '///',merged_cell_complete[j])
             #stop condition if non-merged cell to be filled take place at the end
             if i==len(m_c_range)-1:
                 ii=m_c_right[0][1]+1
@@ -276,13 +272,10 @@ class Excel_Fomatter:
                         merged_cell_complete.append(new_cell)
                         ii=ii+1
                         j=j+1
-                        print('new cell'+ str(new_cell))
-                        print('--->',[m_c_left, m_c_right], '///',merged_cell_complete[j])
         #ALTERNATE FILL (HEADER)
         foo=True
         for m_c_list in merged_cell_complete:
             cell_index=m_c_list[0]
-            #print(cell_index)
             if foo==True:
                 ws.cell(row=cell_index[0],column=cell_index[1]).fill=PatternFill("solid", start_color=color1)
                 foo=False
