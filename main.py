@@ -210,10 +210,6 @@ class Excel_Fomatter:
         self.worksheet.column_dimensions = dim_holder
         return "Column width adjustment is complete"
 
-    def save(self):
-        self.workbook.save(self.file_path)
-        return "File saving is complete"
-
     def merged_header_alternate_fill(self, start_cell=(3,2), color1="6A8ED0",color2="9EB2DE"):
         """
         Formats header alternated by merged cell
@@ -225,19 +221,23 @@ class Excel_Fomatter:
         #ROW OF FIRST LEVEL INDEXING : YEAR_MONTH
         #  row_range=3
         start_row=start_cell[0] 
+
         #COLUN START OF HEADER
         start_col=start_cell[1] 
+
         #list of cell to merge
         #output of first loop to identify which cell to fill
         #method .fill takes the first cell top right to fill
         merged_cell_complete=[]
+        
         #index for list merged_cell_complete
-        j=-1
-        f=0
+        j, f = -1, 0
+
         try:
             print(program)
         except:
             print('Program not found')
+
         #BUILD INDEX FOR HEADER, INCLUDING NON MERGED CELLS
         #RETURNS LEFT INDEX OF CELL IF IN A MERGE RANGE OR THE SAME CELL IF NOT
         for i in range(len(m_c_range)):
@@ -283,3 +283,7 @@ class Excel_Fomatter:
                 ws.cell(row=cell_index[0],column=cell_index[1]).fill=PatternFill("solid", start_color=color2)
                 foo=True
         print('MERGED CELL FILLED')
+
+    def save(self):
+        self.workbook.save(self.file_path)
+        return "File saving is complete"
