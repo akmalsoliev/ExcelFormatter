@@ -232,12 +232,6 @@ class Excel_Fomatter:
         
         #index for list merged_cell_complete
         j, f = -1, 0
-
-        try:
-            print(program)
-        except:
-            print('Program not found')
-
         #BUILD INDEX FOR HEADER, INCLUDING NON MERGED CELLS
         #RETURNS LEFT INDEX OF CELL IF IN A MERGE RANGE OR THE SAME CELL IF NOT
         for i in range(len(m_c_range)):
